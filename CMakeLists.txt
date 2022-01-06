@@ -20,11 +20,15 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # Find SFML
 find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
+
+#Find Boost
+find_package(Boost COMPONENTS thread REQUIRED)
+
 #find_package(OpenCV REQUIRED )
 include_directories( ${SFML_INCLUDE_DIRS} )
 add_executable(Splits main.cpp)
-target_include_directories(Splits PRIVATE "${PROJECT_BINARY_DIR}")
+target_include_directories(Splits PRIVATE "${PROJECT_BINARY_DIR}" ${Boost_INCLUDE_DIR})
 
-target_link_libraries(Splits sfml-graphics sfml-audio)
+target_link_libraries(Splits sfml-graphics sfml-audio Boost::thread)
 
 install(TARGETS Splits DESTINATION bin)
