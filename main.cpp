@@ -11,6 +11,8 @@ void timerThread()
 {
     while(window.isOpen())
     {
+        //Sleep and then increment. Giving plenty of time for reads from other threads
+        usleep(1000000);
         timer.tick();
     }
 }
@@ -36,6 +38,7 @@ int main(int argc, char ** argv)
         std::cout << " Minutes: " << timer.readMinutes() << " Seconds: " << timer.readSeconds() << std::endl;
 
         window.clear();
+        usleep(1000);
         window.draw(shape);
         window.display();
     }

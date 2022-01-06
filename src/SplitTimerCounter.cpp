@@ -10,9 +10,6 @@ SplitTimerCounter::SplitTimerCounter()
 
 void SplitTimerCounter::tick()
 {
-    //Sleep and then increment. Giving plenty of time for reads from other threads
-    sleep(1);
-
     //Deal with minutes and seconds.
     mtx_.lock();
     if(seconds_ < 59)
