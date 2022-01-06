@@ -26,7 +26,7 @@ find_package(Boost COMPONENTS thread REQUIRED)
 
 #find_package(OpenCV REQUIRED )
 include_directories( ${SFML_INCLUDE_DIRS} )
-add_executable(Splits main.cpp)
+add_executable(Splits main.cpp src/SplitTimerCounter.cpp )
 target_include_directories(Splits PRIVATE "${PROJECT_BINARY_DIR}" ${Boost_INCLUDE_DIR})
 
 target_link_libraries(Splits sfml-graphics sfml-audio Boost::thread)

@@ -1,10 +1,28 @@
 #include <SFML/Graphics.hpp>
+#include <boost/thread.hpp>
+#include "include/SplitTimerCounter.h"
 
-int main()
+
+SplitTimerCounter timer;
+sf::RenderWindow window(sf::VideoMode(200, 200), "Splits");
+
+//Set up timer thread
+void timerThread()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Splits");
+    while(window.isOpen())
+    {
+        timer.tick();
+    }
+}
+
+
+int main(int argc, char ** argv)
+{
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
+
+    //Start timer thread
+    boost::thread thread1(timerThread);
 
     while (window.isOpen())
     {
@@ -15,10 +33,13 @@ int main()
                 window.close();
         }
 
+        std::cout << " Minutes: " << timer.readMinutes() << " Seconds: " << timer.readSeconds() << std::endl;
+
         window.clear();
         window.draw(shape);
         window.display();
     }
 
+    thread1.join();
     return 0;
 }
