@@ -36,6 +36,7 @@ int main(int argc, char ** argv)
     timerText.setCharacterSize(24);
     timerText.setFillColor(sf::Color::Green);
 
+    window.setKeyRepeatEnabled(false);
 
     //sf::CircleShape shape(100.f);
     //shape.setFillColor(sf::Color::Green);
@@ -45,11 +46,26 @@ int main(int argc, char ** argv)
 
     while (window.isOpen())
     {
+
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch(event.type)
+            {
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case sf::Event::KeyPressed:
+
+                    if(event.key.code == sf::Keyboard::F1)
+                    {
+                        timer.toggle();
+                    }
+
+                    break;
+                default:
+                    break;
+            }
         }
 
         //Make a string stream to store data like a print.
@@ -58,7 +74,7 @@ int main(int argc, char ** argv)
         timerText.setString(timerConcat.str());
 
         //Then print.
-        //std::cout << "Hours: " << timer.readHours() << " Minutes: " << timer.readMinutes() << " Seconds: " << timer.readSeconds() << " Milliseconds: " << timer.readMilliseconds() << std::endl;
+        std::cout << "Hours: " << timer.readHours() << " Minutes: " << timer.readMinutes() << " Seconds: " << timer.readSeconds() << " Milliseconds: " << timer.readMilliseconds() << std::endl;
 
         window.clear();
         usleep(1000);

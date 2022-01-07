@@ -10,20 +10,27 @@ SplitTimerCounter::SplitTimerCounter()
     milliseconds_ = 0;
 
     timeAdjust = 0;
+
+    ticking = false;
 }
 
 
 void SplitTimerCounter::tick()
 {
+    
     //Sleep and then increment. Giving plenty of time for reads from other threads
     usleep(1000 - timeAdjust > 0 ? 1000 - timeAdjust : 1000);
 
     //Time the threading operation overhead for calibration.
     auto start_time = std::chrono::high_resolution_clock::now();
 
+     if(!ticking)
+        return;
+
     //Deal with minutes and seconds.
     //This is a messy if-else chain that should probably be better.
     mtx_.lock();
+
     if(milliseconds_ < 999)
     {
         milliseconds_++;;
@@ -63,6 +70,13 @@ void SplitTimerCounter::tick()
     timeAdjust = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 10;
     //std::cout << "debug: " << timeAdjust << std::endl;
 
+    mtx_.unlock();
+}
+
+void SplitTimerCounter::toggle()
+{
+    mtx_.lock();
+    ticking = !ticking;
     mtx_.unlock();
 }
 

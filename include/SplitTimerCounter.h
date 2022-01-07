@@ -14,6 +14,9 @@ class SplitTimerCounter
     unsigned short seconds_;
     unsigned short milliseconds_;
 
+    //Boolean for whether the stopwatch has been started or not
+    bool ticking;
+
     //Calibration to account for threading operations.
     double timeAdjust;
 
@@ -21,6 +24,8 @@ class SplitTimerCounter
         SplitTimerCounter();
 
         void tick();
+
+        void toggle();
 
         unsigned short readMilliseconds();
         unsigned short readSeconds();;
