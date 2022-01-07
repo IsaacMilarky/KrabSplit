@@ -60,7 +60,7 @@ void SplitTimerCounter::tick()
     }
     auto end_time = std::chrono::high_resolution_clock::now();
 
-    timeAdjust = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 3.141;
+    timeAdjust = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count() / 10;
     //std::cout << "debug: " << timeAdjust << std::endl;
 
     mtx_.unlock();
