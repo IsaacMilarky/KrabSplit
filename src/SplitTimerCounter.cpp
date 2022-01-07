@@ -24,7 +24,9 @@ void SplitTimerCounter::tick()
     //Time the threading operation overhead for calibration.
     auto start_time = std::chrono::high_resolution_clock::now();
 
-     if(!ticking)
+    //Should be safe enough to do before mutex since its only a read
+    //Besides causes deadlock when placed after the mutex lock.
+    if(!ticking)
         return;
 
     //Deal with minutes and seconds.
